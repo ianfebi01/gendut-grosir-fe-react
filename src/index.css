@@ -1,0 +1,19 @@
+:root {
+
+}
+
+
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* .ant-layout-sider-trigger{
+  background: #000 !important;
+} */
