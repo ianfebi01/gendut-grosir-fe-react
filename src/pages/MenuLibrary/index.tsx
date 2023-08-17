@@ -1,12 +1,12 @@
+import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-const PointOfSales = () => {
+const index = () => {
   return (
     <div>
-      pos
       <Outlet />
     </div>
   )
 }
 
-export default PointOfSales
+export default index

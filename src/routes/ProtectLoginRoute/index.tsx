@@ -5,9 +5,9 @@ interface Props {
   isPublic?: boolean
   isAuthorized: boolean
 }
-const NoLoginRoute: FunctionComponent<Props> = ({ isAuthorized }) => {
+const ProtectLoginRoute: FunctionComponent<Props> = ({ isAuthorized }) => {
   console.log('jembot')
-  return !isAuthorized ? <Outlet /> : <Navigate to="/home" />
+  return !isAuthorized ? <Outlet /> : <Navigate to="/" />
 }
 
-export default NoLoginRoute
+export default ProtectLoginRoute

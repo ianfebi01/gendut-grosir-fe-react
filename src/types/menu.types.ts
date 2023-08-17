@@ -8,6 +8,6 @@ export interface IMenus {
     icon?:      FunctionComponent<AntdIconProps>;
     access?:    string[];
     children?: IMenus[];
-    layout?: FunctionComponent
+    component?: FunctionComponent
 }
 

@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
-import type { MenuProps } from 'antd'
+import { useState } from 'react'
 import {
   Avatar,
   Button,
@@ -14,28 +13,14 @@ import {
 import logo from '/Ilustration/logo.svg'
 import { styled } from 'styled-components'
 import menu from '../menu'
-import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon'
 import { UserOutlined } from '@ant-design/icons'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { generateMenu } from '../utils/menus'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
 
-const menus = menu.map((item) => {
-  let children: MenuProps['items'] = []
-  if (item.children?.length) {
-    children = item.children.map((item2) => ({
-      key: item2.url,
-      label: item2.title,
-    }))
-  }
-  return {
-    key: item.url,
-    icon: React.createElement(item.icon as FunctionComponent<AntdIconProps>),
-    label: item.name,
-    children: item.children?.length ? children : '',
-  }
-})
+const menus = generateMenu(menu, 'admin')
 
 // @ NOTE Styled Component
 
@@ -63,7 +48,7 @@ const TextLogo = styled.span<{ $collapsed?: boolean }>`
   opacity: ${(props) => (props.$collapsed ? 0 : '100')};
   transition: all 0.3s ease-out;
   text-overflow: ellipsis;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
   font-weight: bold;
   color: #101828;
 `
@@ -106,11 +91,6 @@ const StyledSider = styled(Sider)<{ $color?: string }>`
     background: ${(props) => props.$color} !important;
   }
 `
-// const StyledButton = styled(Button)`
-//   font-size: 16px;
-//   width: 64px !important;
-//   height: 64px;
-// `
 
 const content = (
   <Button type="primary" danger>
@@ -124,6 +104,8 @@ const Default = () => {
   } = theme.useToken()
 
   const [collapsed, setCollapsed] = useState<boolean>(false)
+
+  const navigate = useNavigate()
   return (
     <Layout style={{ height: '100%' }}>
       <Layout>
@@ -167,6 +149,7 @@ const Default = () => {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
             items={menus}
+            onSelect={({ key }) => navigate(key)}
           />
         </StyledSider>
         <Layout>

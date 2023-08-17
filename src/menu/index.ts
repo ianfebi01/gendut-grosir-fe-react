@@ -2,35 +2,19 @@ import { IMenus } from '../types/menu.types'
 
 import {
   ShoppingOutlined,
-  ShoppingCartOutlined,
   BarChartOutlined,
   FolderOutlined,
+  ShoppingCartOutlined,
   TeamOutlined,
-  LockOutlined
+  LockOutlined,
 } from '@ant-design/icons'
 
-import Login from "../pages/Login";
-import Home from "../pages/Home";
-import Dashboard from "../pages/Home";
-import Category from "../pages/MenuLibrary/Category";
-import Product from "../pages/MenuLibrary/Product";
-
-
 export default <IMenus[]>[
-  {
-    title: 'Login',
-    name: 'login',
-    url: '/login',
-    icon: ShoppingOutlined,
-    component: Login,
-    access: ['public'],
-  },
   {
     title: 'Point Of Sales',
     name: 'pos',
     url: '/',
     icon: ShoppingOutlined,
-    component: Home,
     access: ['super_admin', 'admin', 'customer'],
   },
   {
@@ -38,7 +22,6 @@ export default <IMenus[]>[
     name: 'dashboard',
     url: '/dashboard',
     icon: BarChartOutlined,
-    component: Dashboard,
     access: ['super_admin'],
   },
   {
@@ -60,7 +43,6 @@ export default <IMenus[]>[
         name: 'category',
         url: '/library/category',
         icon: '',
-        component: Category,
         access: ['super_admin', 'admin'],
       },
       {
@@ -68,7 +50,6 @@ export default <IMenus[]>[
         name: 'product',
         url: '/library/product',
         icon: '',
-        component: Product,
         access: ['super_admin', 'admin'],
       },
       {

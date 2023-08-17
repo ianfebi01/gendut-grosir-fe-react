@@ -1,60 +1,72 @@
-import flattenDeep from 'lodash/flattenDeep'
-import React from 'react'
+import { Fragment, FunctionComponent } from 'react'
 import { Route, Routes as ReactRoutes } from 'react-router-dom'
-import ProtectedRoute from './ProtectedRoute'
-import NoLoginRoute from './NoLoginRoute'
-import Login from '../pages/Login'
 import NotFound from '../pages/404'
+import AdminRoute from './AdminRoute'
+import { IRoutes, IRoutesProps } from '../types/routes.types'
+import ProtectLoginRoute from './ProtectLoginRoute'
 
-const generateFlattenRoutes = (routes) => {
+const generateFlattenRoutes = (routes: IRoutes) => {
   if (!routes) return []
-  return flattenDeep(
-    routes.map(({ routes: subRoutes, ...rest }) => [
-      rest,
-      generateFlattenRoutes(subRoutes),
-    ])
-  )
+  if (routes.children) {
+    if (routes?.children?.length) {
+      return [routes, ...routes.children.map((item) => item)]
+    }
+  } else {
+    return [routes]
+  }
 }
 
-export const renderRoutes = (mainRoutes) => {
-  const Routes = ({ isAuthorized }) => {
-    const layouts = mainRoutes.map(
-      ({ layout: Layout, routes }, index: number) => {
-        const subRoutes = generateFlattenRoutes(routes)
-        console.log(routes)
-        console.log('sub', subRoutes.length)
-        return (
-          <>
-            <Route path="*" element={<NotFound />} />
-            <Route key={index} element={<Layout />}>
-              {subRoutes.map(
-                ({ component: Component, path, name, isPublic }) => {
-                  console.log(isPublic, isAuthorized)
+export const renderRoutes = (mainRoutes: IRoutes[]) => {
+  const Routes: FunctionComponent<IRoutesProps> = ({
+    isAuthorized,
+    role = 'super_admin',
+  }) => {
+    const layouts = mainRoutes.map((item: IRoutes, index: number) => {
+      const subRoutes: IRoutes[] = generateFlattenRoutes(item) as IRoutes[]
 
-                  return (
-                    Component &&
-                    path && (
-                      <Route
-                        element={
-                          isPublic ? (
-                            <NoLoginRoute isAuthorized={isAuthorized} />
-                          ) : (
-                            <ProtectedRoute isAuthorized={isAuthorized} />
-                          )
-                        }
-                      >
-                        <Route key={name} element={<Component />} path={path} />
-                      </Route>
-                    )
+      return (
+        <Fragment key={index}>
+          <Route key="not-found" path="*" element={<NotFound />} />
+          <Route key={index} element={<item.layout />}>
+            {subRoutes.map(({ component: Component, url, name, access }) => {
+              if (name === 'login') {
+                return (
+                  Component &&
+                  url && (
+                    <Route
+                      key={name}
+                      element={
+                        <ProtectLoginRoute isAuthorized={isAuthorized} />
+                      }
+                    >
+                      <Route key={name} element={<Component />} path={url} />
+                    </Route>
                   )
-                }
-              )}
-            </Route>
-          </>
-        )
-      }
-    )
-    console.log('layuttt', layouts)
+                )
+              }
+              return (
+                Component &&
+                url && (
+                  <Route
+                    key={name}
+                    element={
+                      <AdminRoute
+                        isAuthorized={isAuthorized}
+                        access={access as string[]}
+                        role={role}
+                      />
+                    }
+                  >
+                    <Route key={name} element={<Component />} path={url} />
+                  </Route>
+                )
+              )
+            })}
+          </Route>
+        </Fragment>
+      )
+    })
+
     return <ReactRoutes>{layouts}</ReactRoutes>
   }
   return Routes

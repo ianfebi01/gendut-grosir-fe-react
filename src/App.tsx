@@ -5,7 +5,7 @@ import { Routes } from './routes'
 function App() {
   return (
     <div style={{ height: '100vh' }}>
-      <Routes isAuthorized={true} />
+      <Routes isAuthorized={true} role="admin" />
     </div>
   )
 }
