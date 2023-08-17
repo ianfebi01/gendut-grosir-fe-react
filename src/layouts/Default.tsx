@@ -13,9 +13,10 @@ import {
 } from 'antd'
 import logo from '/Ilustration/logo.svg'
 import { styled } from 'styled-components'
-import menu from '../../menu'
+import menu from '../menu'
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon'
 import { UserOutlined } from '@ant-design/icons'
+import { Outlet } from 'react-router-dom'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -25,7 +26,7 @@ const menus = menu.map((item) => {
   if (item.children?.length) {
     children = item.children.map((item2) => ({
       key: item2.url,
-      label: item2.name,
+      label: item2.title,
     }))
   }
   return {
@@ -179,6 +180,7 @@ const Default = () => {
             }}
           >
             Content
+            <Outlet />
             <Button type="primary">Hi im primary</Button>
           </Content>
         </Layout>

@@ -1,10 +1,11 @@
 import './App.css'
-import Default from './components/Layout/Default'
+
+import { Routes } from './routes'
 
 function App() {
   return (
     <div style={{ height: '100vh' }}>
-      <Default />
+      <Routes isAuthorized={true} />
     </div>
   )
 }
