@@ -1,17 +1,14 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react'
 
 export interface IRoutes {
-    title: string
-    name:      string;
-    url:       string;
-    access?:    string[];
-    children?: IRoutes[];
-    component?: FunctionComponent
-    layout: FunctionComponent
+  title: string
+  name: string
+  url: string
+  access?: string[]
+  children?: IRoutes[]
+  component?: FunctionComponent
+  layout: FunctionComponent
+  type?: 'auth' | 'normal'
 }
 
-
-export interface IRoutesProps{
-    isAuthorized: boolean
-    role:string
-}
+export interface IRoutesProps {}

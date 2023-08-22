@@ -3,19 +3,18 @@ import {
   Avatar,
   Button,
   Divider,
-  Image,
   Layout,
   Menu,
   Popover,
   Typography,
   theme,
 } from 'antd'
-import logo from '/Ilustration/logo.svg'
 import { styled } from 'styled-components'
 import menu from '../menu'
-import { UserOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { generateMenu } from '../utils/menus'
+import { useAppSelector } from '../redux/store'
+import Logo from '../components/Logo'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -29,28 +28,6 @@ const ImageWrapper = styled.div`
   height: 40px;
   /* display: flex; */
   /* align-items: center; */
-`
-
-const LogoContainer = styled.div<{ $collapsed?: boolean }>`
-  width: calc(100% - 20px);
-  height: 60px;
-  display: flex;
-  margin: 10px;
-  align-items: center;
-  overflow: hidden;
-  padding-inline: ${(props) => (props.$collapsed ? '9px' : '9px')};
-  transition: all 0.3s ease-out;
-`
-
-const TextLogo = styled.span<{ $collapsed?: boolean }>`
-  margin-inline-start: 10px;
-  white-space: nowrap;
-  opacity: ${(props) => (props.$collapsed ? 0 : '100')};
-  transition: all 0.3s ease-out;
-  text-overflow: ellipsis;
-  font-family: Montserrat, sans-serif;
-  font-weight: bold;
-  color: #101828;
 `
 
 const ProfileContainer = styled.div<{ $collapsed?: boolean }>`
@@ -106,9 +83,14 @@ const Default = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
   const navigate = useNavigate()
+
+  // const state = useAppSelector((state) => state.postsReducer.postsDatas)
+
+  const state = useAppSelector((state) => state.authReducer)
+
   return (
     <Layout style={{ height: '100%' }}>
-      <Layout>
+      <Layout hasSider={true}>
         <StyledSider
           width={200}
           style={{ background: colorBgContainer }}
@@ -118,12 +100,12 @@ const Default = () => {
           $color={colorPrimary}
           onCollapse={(value) => setCollapsed(value)}
         >
-          <LogoContainer $collapsed={collapsed}>
-            <ImageWrapper>
-              <Image preview={false} src={logo} width={40} />
-            </ImageWrapper>
-            <TextLogo $collapsed={collapsed}>Gendut Grosir</TextLogo>
-          </LogoContainer>
+          <Logo
+            collapsed={collapsed}
+            style={{
+              margin: '10px',
+            }}
+          />
           <Popover
             placement="rightTop"
             content={content}
@@ -132,12 +114,12 @@ const Default = () => {
             <Divider />
             <ProfileContainer $collapsed={collapsed}>
               <ImageWrapper className="avatar">
-                <Avatar icon={<UserOutlined />} size="small" />
+                <Avatar src={state.profilePicture} size="small" />
               </ImageWrapper>
               <ProfileTextContainer $collapsed={collapsed}>
-                <ProfileNAmeText ellipsis>Ian Febi Sastratruna</ProfileNAmeText>
+                <ProfileNAmeText ellipsis>{state.name}</ProfileNAmeText>
                 <ProfileRoleText type="secondary" ellipsis>
-                  Super Admin
+                  {state.role}
                 </ProfileRoleText>
               </ProfileTextContainer>
             </ProfileContainer>

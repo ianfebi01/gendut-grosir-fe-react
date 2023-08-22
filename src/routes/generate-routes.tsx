@@ -4,6 +4,7 @@ import NotFound from '../pages/404'
 import AdminRoute from './AdminRoute'
 import { IRoutes, IRoutesProps } from '../types/routes.types'
 import ProtectLoginRoute from './ProtectLoginRoute'
+import { useAppSelector } from '../redux/store'
 
 const generateFlattenRoutes = (routes: IRoutes) => {
   if (!routes) return []
@@ -17,57 +18,65 @@ const generateFlattenRoutes = (routes: IRoutes) => {
 }
 
 export const renderRoutes = (mainRoutes: IRoutes[]) => {
-  const Routes: FunctionComponent<IRoutesProps> = ({
-    isAuthorized,
-    role = 'super_admin',
-  }) => {
+  const Routes: FunctionComponent<IRoutesProps> = () => {
+    const state = useAppSelector((state) => state.authReducer)
+
     const layouts = mainRoutes.map((item: IRoutes, index: number) => {
       const subRoutes: IRoutes[] = generateFlattenRoutes(item) as IRoutes[]
 
       return (
         <Fragment key={index}>
-          <Route key="not-found" path="*" element={<NotFound />} />
-          <Route key={index} element={<item.layout />}>
-            {subRoutes.map(({ component: Component, url, name, access }) => {
-              if (name === 'login') {
-                return (
-                  Component &&
-                  url && (
-                    <Route
-                      key={name}
-                      element={
-                        <ProtectLoginRoute isAuthorized={isAuthorized} />
-                      }
-                    >
-                      <Route key={name} element={<Component />} path={url} />
-                    </Route>
-                  )
-                )
-              }
+          {/* <Route index loader={() => redirect('/login')} /> */}
+
+          {subRoutes.map(({ component: Component, url, name, type }) => {
+            if (type === 'auth') {
               return (
                 Component &&
                 url && (
                   <Route
                     key={name}
                     element={
-                      <AdminRoute
-                        isAuthorized={isAuthorized}
-                        access={access as string[]}
-                        role={role}
+                      <ProtectLoginRoute
+                        isAuthorized={state.isAuthorized as boolean}
                       />
                     }
                   >
-                    <Route key={name} element={<Component />} path={url} />
+                    <Route key={index} element={<item.layout />}>
+                      <Route key={name} element={<Component />} path={url} />
+                    </Route>
                   </Route>
                 )
               )
-            })}
-          </Route>
+            }
+            return (
+              Component &&
+              url && (
+                <Route
+                  key={name}
+                  element={
+                    <AdminRoute
+                      isAuthorized={state.isAuthorized as boolean}
+                      name={name}
+                    />
+                  }
+                >
+                  <Route key={index} element={<item.layout />}>
+                    <Route key={name} element={<Component />} path={url} />
+                  </Route>
+                </Route>
+              )
+            )
+          })}
         </Fragment>
       )
     })
 
-    return <ReactRoutes>{layouts}</ReactRoutes>
+    return (
+      <ReactRoutes>
+        <Route key="not-found" path="*" element={<NotFound />} />
+        {layouts}
+      </ReactRoutes>
+    )
   }
   return Routes
 }

@@ -1,22 +1,22 @@
 import { FunctionComponent } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { useAppSelector } from '../../redux/store'
 
 interface Props {
   isPublic?: boolean
   isAuthorized: boolean
-  role: string
-  access: string[]
+  name: string
 }
 
-const AdminRoute: FunctionComponent<Props> = ({
-  isAuthorized,
-  role,
-  access,
-}) => {
-  return isAuthorized && access.includes(role) ? (
+const AdminRoute: FunctionComponent<Props> = ({ isAuthorized, name }) => {
+  const state = useAppSelector((state) => state.authReducer)
+
+  return isAuthorized && state.allow.includes(name) ? (
     <Outlet />
+  ) : !isAuthorized ? (
+    <Navigate to="/login" replace={true} />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/404" />
   )
 }
 

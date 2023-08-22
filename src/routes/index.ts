@@ -1,14 +1,14 @@
-import PointOfSales from "../layouts/PointOfSales";
-import Default from "../layouts/Default";
-import { renderRoutes } from "./generate-routes";
-import { IRoutes } from "../types/routes.types";
+import { renderRoutes } from './generate-routes'
+import { IRoutes } from '../types/routes.types'
 
 // Pages
-import Login from "../pages/Login";
-import Home from "../pages/Home";
-import Dashboard from "../pages/Home";
-import Category from "../pages/MenuLibrary/Category";
-import Product from "../pages/MenuLibrary/Product";
+import Login from '../pages/Login'
+import Home from '../pages/Home'
+import Dashboard from '../pages/Home'
+import Category from '../pages/MenuLibrary/Category'
+import Product from '../pages/MenuLibrary/Product'
+import Default from '../layouts/Default'
+import LoginLayout from '../layouts/Login'
 
 // export const routes = [
 // {
@@ -57,14 +57,39 @@ import Product from "../pages/MenuLibrary/Product";
 //   }
 // ];
 
-export const routes: IRoutes[]= [
+// const access = {
+//   super_admin: [
+//     'login',
+//     'pos',
+//     'dashboard',
+//     'orders',
+//     'library',
+//     'category',
+//     'product',
+//     'stockOpname',
+//     'customers',
+//     'role',
+//   ],
+//   admin: [
+//     'login',
+//     'pos',
+//     'orders',
+//     'library',
+//     'category',
+//     'product',
+//     'stockOpname',
+//   ],
+//   customer: ['login', 'pos'],
+// }
+
+export const routes: IRoutes[] = [
   {
     title: 'Login',
     name: 'login',
     url: '/login',
     component: Login,
-    layout: PointOfSales,
-    access: ['super_admin', 'admin', 'customer'],
+    layout: LoginLayout,
+    type: 'auth',
   },
   {
     title: 'Point Of Sales',
@@ -72,7 +97,6 @@ export const routes: IRoutes[]= [
     url: '/',
     layout: Default,
     component: Home,
-    access: ['super_admin', 'admin', 'customer'],
   },
   {
     title: 'Dashboard',
@@ -80,7 +104,6 @@ export const routes: IRoutes[]= [
     url: '/dashboard',
     component: Dashboard,
     layout: Default,
-    access: ['super_admin'],
   },
   // {
   //   title: 'Orders',
@@ -94,7 +117,7 @@ export const routes: IRoutes[]= [
     name: 'library',
     url: '/library',
     layout: Default,
-    access: ['super_admin', 'admin'],
+
     children: [
       {
         title: 'Category',
@@ -102,7 +125,6 @@ export const routes: IRoutes[]= [
         url: '/library/category',
         component: Category,
         layout: Default,
-        access: ['super_admin', 'admin'],
       },
       {
         title: 'Product',
@@ -110,7 +132,6 @@ export const routes: IRoutes[]= [
         url: '/library/product',
         component: Product,
         layout: Default,
-        access: ['super_admin', 'admin'],
       },
       // {
       //   title: 'Stock Opname',
@@ -137,8 +158,5 @@ export const routes: IRoutes[]= [
   // },
 ]
 
-
-
-
 // export const Routes = renderRoutes(routes);
-export const Routes = renderRoutes(routes);
+export const Routes = renderRoutes(routes)

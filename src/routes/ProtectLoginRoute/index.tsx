@@ -6,8 +6,7 @@ interface Props {
   isAuthorized: boolean
 }
 const ProtectLoginRoute: FunctionComponent<Props> = ({ isAuthorized }) => {
-  console.log('jembot')
-  return !isAuthorized ? <Outlet /> : <Navigate to="/" />
+  return !isAuthorized ? <Outlet /> : <Navigate to="/" replace={true} />
 }
 
 export default ProtectLoginRoute
