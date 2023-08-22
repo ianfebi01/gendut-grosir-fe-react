@@ -6,31 +6,31 @@ import Cookies from 'universal-cookie'
 const cookie = new Cookies()
 
 const initialState: InitialState = {
-  // _id: '',
-  // name: '',
-  // email: '',
-  // role: '',
-  // activate: true,
-  // profilePicture: '',
-  // allow: [],
-  isAuthorized: true,
-  _id: '63c57c45cdd9b753df70704b',
-  name: 'Ian Febi Sastrataruna',
-  email: 'ianfebi01@gmail.com',
-  role: 'admin',
+  _id: '',
+  name: '',
+  email: '',
+  role: '',
   activate: true,
-  profilePicture:
-    'https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png',
-  allow: [
-    'login',
-    'pos',
-    'orders',
-    'library',
-    'category',
-    'product',
-    'stockOpname',
-    'dashboard',
-  ],
+  profilePicture: '',
+  allow: [],
+  isAuthorized: false,
+  // _id: '63c57c45cdd9b753df70704b',
+  // name: 'Ian Febi Sastrataruna',
+  // email: 'ianfebi01@gmail.com',
+  // role: 'admin',
+  // activate: true,
+  // profilePicture:
+  //   'https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png',
+  // allow: [
+  //   'login',
+  //   'pos',
+  //   'orders',
+  //   'library',
+  //   'category',
+  //   'product',
+  //   'stockOpname',
+  //   'dashboard',
+  // ],
 }
 
 export const auth = createSlice({

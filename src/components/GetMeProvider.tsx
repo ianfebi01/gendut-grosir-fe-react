@@ -23,7 +23,7 @@ const GetMeProvider: FunctionComponent<{
 
   const [cookie] = useCookies(['accessToken'])
 
-  const { isLoading, refetch, isFetching } = useQuery({
+  const { isLoading, refetch, isFetching, fetchStatus } = useQuery({
     queryFn: getMe,
     queryKey: ['profile'],
     enabled: false,
@@ -52,13 +52,14 @@ const GetMeProvider: FunctionComponent<{
     }
   }, [])
 
+  console.log(fetchStatus)
   if (isLoading && isFetching)
     return (
       <StyledSpin>
         <Spin />
       </StyledSpin>
     )
-  else if (!isLoading && !isFetching) return children
+  else if (fetchStatus === 'idle') return children
   // return children
 }
 
