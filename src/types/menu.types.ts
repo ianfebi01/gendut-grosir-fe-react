@@ -1,13 +1,11 @@
-import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon";
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react'
 
 export interface IMenus {
-    title: string
-    name:      string;
-    url:       string;
-    icon?:      FunctionComponent<AntdIconProps>;
-    access?:    string[];
-    children?: IMenus[];
-    component?: FunctionComponent
+  title: string
+  name: string
+  url: string
+  icon?: FunctionComponent | string
+  access?: string[]
+  children?: IMenus[]
+  component?: FunctionComponent
 }
-

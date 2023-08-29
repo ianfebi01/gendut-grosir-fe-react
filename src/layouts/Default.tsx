@@ -19,8 +19,6 @@ import Logo from '../components/Logo'
 const { Content, Sider } = Layout
 const { Text } = Typography
 
-const menus = generateMenu(menu, 'admin')
-
 // @ NOTE Styled Component
 
 const ImageWrapper = styled.div`
@@ -84,9 +82,9 @@ const Default = () => {
 
   const navigate = useNavigate()
 
-  // const state = useAppSelector((state) => state.postsReducer.postsDatas)
-
   const state = useAppSelector((state) => state.authReducer)
+
+  const menus = generateMenu(menu, state.role)
 
   return (
     <Layout style={{ height: '100%' }}>
@@ -127,7 +125,7 @@ const Default = () => {
           </Popover>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['/']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
             items={menus}
