@@ -143,9 +143,7 @@ const Default = () => {
               borderRadius: '8px',
             }}
           >
-            Content
             <Outlet />
-            <Button type="primary">Hi im primary</Button>
           </Content>
         </Layout>
       </Layout>
