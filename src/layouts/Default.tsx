@@ -15,6 +15,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
 import Logo from '../components/Logo'
+import convertRoleString from '../utils/convertRoleString'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -117,7 +118,7 @@ const Default = () => {
               <ProfileTextContainer $collapsed={collapsed}>
                 <ProfileNAmeText ellipsis>{state.name}</ProfileNAmeText>
                 <ProfileRoleText type="secondary" ellipsis>
-                  {state.role}
+                  {convertRoleString(state.role)}
                 </ProfileRoleText>
               </ProfileTextContainer>
             </ProfileContainer>
