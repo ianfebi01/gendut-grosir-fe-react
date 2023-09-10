@@ -141,6 +141,7 @@ const Default = () => {
               minHeight: 280,
               background: colorBgContainer,
               borderRadius: '8px',
+              overflow: 'auto',
             }}
           >
             <Outlet />

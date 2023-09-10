@@ -1,21 +1,44 @@
-import { Card } from 'antd'
+import { Card, Skeleton } from 'antd'
 import Meta from 'antd/es/card/Meta'
-import React from 'react'
+import { styled } from 'styled-components'
+import { IProdutcCard } from '../../types/components/Cards/Product.types'
+import { FunctionComponent } from 'react'
 
-const Product = () => {
+const StyledCard = styled(Card)`
+  .ant-card-cover {
+    margin-top: unset;
+    margin-inline-start: unset;
+    margin-inline-end: unset;
+  }
+`
+
+const Product: FunctionComponent<IProdutcCard> = (props) => {
+  const { item } = props
   return (
-    <Card
+    <StyledCard
       hoverable
-      style={{ width: 240 }}
+      loading={props?.loading}
+      style={{ width: 'auto', height: 300 }}
       cover={
-        <img
-          alt="example"
-          src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-        />
+        props?.loading ? (
+          <Skeleton.Image
+            active={true}
+            style={{
+              width: '100%',
+              height: '200px',
+            }}
+          />
+        ) : (
+          <img
+            alt="example"
+            src={item.image}
+            style={{ height: '200px', objectFit: 'cover' }}
+          />
+        )
       }
     >
-      <Meta title="Europe Street beat" description="www.instagram.com" />
-    </Card>
+      <Meta title={item.name} description={item.retailPrice} />
+    </StyledCard>
   )
 }
 

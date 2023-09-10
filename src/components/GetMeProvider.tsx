@@ -52,7 +52,6 @@ const GetMeProvider: FunctionComponent<{
     }
   }, [])
 
-  console.log(fetchStatus)
   if (isLoading && isFetching)
     return (
       <StyledSpin>
