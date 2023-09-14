@@ -6,8 +6,15 @@ import Product from '../Cards/Product'
 import { Col, Pagination, Row } from 'antd'
 import { IProductResponse } from '../../types/api/product.types'
 import { useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { AppDispatch, useAppSelector } from '../../redux/store'
+import { setProducts } from '../../redux/feature/product-slice'
 
 const PointOfSales = () => {
+  // @ NOTE redux
+  const dispatch = useDispatch<AppDispatch>()
+  const state = useAppSelector((state) => state.productsReducer)
+
   const [params, setParams] = useState({
     q: '',
     category: '',
@@ -18,17 +25,16 @@ const PointOfSales = () => {
     return new Array(params.limit).fill(0)
   }, [params.limit])
 
-  const { data, isLoading } = useQuery<IProductResponse>({
+  const { isLoading } = useQuery<IProductResponse>({
     queryFn: () =>
       getProducts(params.q, params.category, params.page, params.limit),
     queryKey: ['products', params.page],
     onSuccess: (datas) => {
-      console.log(datas)
+      dispatch(setProducts(datas.data))
     },
   })
 
-  const onChangePagination = (e) => {
-    console.log(e)
+  const onChangePagination = (e: number) => {
     setParams({
       ...params,
       page: e,
@@ -36,7 +42,6 @@ const PointOfSales = () => {
   }
   return (
     <div>
-      <span>tes</span>
       <Row gutter={[16, 16]}>
         {isLoading
           ? loaderLoop.map((item, i) => (
@@ -44,7 +49,7 @@ const PointOfSales = () => {
                 <Product item={item} loading={isLoading} />
               </Col>
             ))
-          : data?.data?.data?.map((item) => (
+          : state.products?.map((item) => (
               <Col xs={24} sm={12} md={8} lg={6} xl={6} xxl={4} key={item._id}>
                 <Product item={item} />
               </Col>
@@ -62,9 +67,9 @@ const PointOfSales = () => {
         >
           <Pagination
             showQuickJumper
-            current={data?.data.paginator.page}
+            current={state.paginator.page}
             defaultCurrent={1}
-            total={data?.data.paginator.itemCount}
+            total={state.paginator.itemCount}
             onChange={onChangePagination}
           />
         </Col>

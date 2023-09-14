@@ -1,9 +1,9 @@
 export interface IProductResponse {
   message: string
-  data: Data
+  data: IData
 }
 
-export interface Data {
+export interface IData {
   data: IProduct[]
   paginator: IPaginator
 }
