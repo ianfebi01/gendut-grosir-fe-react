@@ -62,6 +62,9 @@ const ProfileNAmeText = styled(Text)`
 `
 
 const StyledSider = styled(Sider)<{ $color?: string }>`
+  position: absolute !important;
+  z-index: 10;
+  height: 100vh;
   .ant-layout-sider-trigger {
     background: ${(props) => props.$color} !important;
   }
@@ -79,6 +82,7 @@ const Default = () => {
   } = theme.useToken()
 
   const [collapsed, setCollapsed] = useState<boolean>(false)
+  const [collapsedWidth, setCollapsedWidth] = useState<number>(72)
 
   const navigate = useNavigate()
 
@@ -96,6 +100,12 @@ const Default = () => {
           style={{ background: colorBgContainer }}
           //   trigger={null}
           collapsible
+          collapsedWidth={collapsedWidth}
+          breakpoint="xs"
+          onBreakpoint={(broken) => {
+            if (broken) setCollapsedWidth(0)
+            else setCollapsedWidth(72)
+          }}
           collapsed={collapsed}
           $color={colorPrimary}
           onCollapse={(value) => setCollapsed(value)}
