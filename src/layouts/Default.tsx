@@ -20,6 +20,7 @@ import { Header } from 'antd/es/layout/layout'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { useClickOutside } from '@reactuses/core'
 import logo from '/Ilustration/logo.svg'
+import useSignOut from '../hooks/useSignOut'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -87,12 +88,6 @@ const StyledHeader = styled(Header)<{ $bg?: string }>`
   position: relative;
 `
 
-const content = (
-  <Button type="primary" danger>
-    Sign Out
-  </Button>
-)
-
 const Default = () => {
   const {
     token: { colorBgContainer, colorPrimary },
@@ -101,20 +96,31 @@ const Default = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [collapsedWidth, setCollapsedWidth] = useState<number>(72)
 
-  const navigate = useNavigate()
-
+  // @ NOTE REDUX
   const state = useAppSelector((state) => state.authReducer)
 
+  // @ NOTE MENU
   const menus = generateMenu(menu, state.role.allows)
 
+  // @ NOTE ROUTE
   const route = useLocation()
+  const navigate = useNavigate()
 
+  // @ NOTE CLICK OUTSIDE SIDER TO COLLAPSE
   const siderRef = useRef(null)
 
   useClickOutside(siderRef, () => {
     if (collapsedWidth !== 72) setCollapsed(true)
   })
 
+  // @ NOTE SIGN OUT
+  const signOut = useSignOut()
+
+  const content = (
+    <Button type="primary" danger onClick={() => signOut()}>
+      Sign Out
+    </Button>
+  )
   return (
     <Layout style={{ height: '100%' }}>
       <Layout hasSider={true}>
