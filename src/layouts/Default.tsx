@@ -61,8 +61,8 @@ const ProfileNAmeText = styled(Text)`
   width: 126px;
 `
 
-const StyledSider = styled(Sider)<{ $color?: string }>`
-  position: absolute !important;
+const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
+  position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
   z-index: 10;
   height: 100vh;
   .ant-layout-sider-trigger {
@@ -98,7 +98,6 @@ const Default = () => {
         <StyledSider
           width={200}
           style={{ background: colorBgContainer }}
-          //   trigger={null}
           collapsible
           collapsedWidth={collapsedWidth}
           breakpoint="xs"
@@ -108,6 +107,7 @@ const Default = () => {
           }}
           collapsed={collapsed}
           $color={colorPrimary}
+          $mobile={collapsedWidth !== 72}
           onCollapse={(value) => setCollapsed(value)}
         >
           <Logo
