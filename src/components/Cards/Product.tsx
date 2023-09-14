@@ -12,20 +12,23 @@ const StyledCard = styled(Card)`
     margin-inline-start: unset;
     margin-inline-end: unset;
   }
+  .ant-skeleton-paragraph > li:nth-child(-n + 3) {
+    display: none;
+  }
 `
 
 const Product: FunctionComponent<IProdutcCard> = (props) => {
   const screen = useBreakpoint()
-  const { item } = props
+  const { item, loading } = props
   return (
     <StyledCard
       hoverable
-      loading={props?.loading}
+      loading={loading}
       size={screen['xs'] ? 'small' : 'default'}
       cover={
         props?.loading ? (
           <Skeleton.Image
-            active={true}
+            active={loading}
             style={{
               width: '100%',
               height: screen['xs'] ? '100px' : '200px',

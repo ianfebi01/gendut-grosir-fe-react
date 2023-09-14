@@ -19,7 +19,7 @@ const PointOfSales = () => {
     q: '',
     category: '',
     page: 1,
-    limit: 8,
+    limit: 12,
   })
   const loaderLoop = useMemo(() => {
     return new Array(params.limit).fill(0)
@@ -45,12 +45,12 @@ const PointOfSales = () => {
       <Row gutter={[16, 16]}>
         {isLoading
           ? loaderLoop.map((item, i) => (
-              <Col xs={12} sm={12} md={8} lg={6} xl={6} xxl={4} key={i}>
+              <Col xs={12} sm={12} md={8} lg={4} xl={4} xxl={4} key={i}>
                 <Product item={item} loading={isLoading} />
               </Col>
             ))
           : state.products?.map((item) => (
-              <Col xs={12} sm={12} md={8} lg={6} xl={6} xxl={4} key={item._id}>
+              <Col xs={12} sm={12} md={8} lg={4} xl={4} xxl={4} key={item._id}>
                 <Product item={item} />
               </Col>
             ))}
