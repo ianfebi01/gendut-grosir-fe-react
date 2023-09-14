@@ -48,7 +48,11 @@ const GetMeProvider: FunctionComponent<{
         <Spin />
       </StyledSpin>
     )
-  else if (fetchStatus === 'idle' && isSuccess) return children
+  else if (cookie.accessToken) {
+    if (fetchStatus === 'idle' && isSuccess) return children
+  } else if (!cookie.accessToken) {
+    if (fetchStatus === 'idle') return children
+  }
   // return children
 }
 
