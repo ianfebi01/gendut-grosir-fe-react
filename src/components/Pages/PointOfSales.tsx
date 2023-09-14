@@ -69,7 +69,7 @@ const PointOfSales = () => {
             showQuickJumper
             current={state.paginator.page}
             defaultCurrent={1}
-            total={state.paginator.itemCount}
+            total={state.paginator.itemCount - 12}
             onChange={onChangePagination}
           />
         </Col>
