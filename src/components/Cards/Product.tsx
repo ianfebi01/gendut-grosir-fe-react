@@ -1,8 +1,10 @@
-import { Card, Skeleton } from 'antd'
+import { Card, Grid, Skeleton } from 'antd'
 import Meta from 'antd/es/card/Meta'
 import { styled } from 'styled-components'
 import { IProdutcCard } from '../../types/components/Cards/Product.types'
 import { FunctionComponent } from 'react'
+
+const { useBreakpoint } = Grid
 
 const StyledCard = styled(Card)`
   .ant-card-cover {
@@ -10,29 +12,36 @@ const StyledCard = styled(Card)`
     margin-inline-start: unset;
     margin-inline-end: unset;
   }
+  .ant-skeleton-paragraph > li:nth-child(-n + 3) {
+    display: none;
+  }
 `
 
 const Product: FunctionComponent<IProdutcCard> = (props) => {
-  const { item } = props
+  const screen = useBreakpoint()
+  const { item, loading } = props
   return (
     <StyledCard
       hoverable
-      loading={props?.loading}
-      style={{ width: 'auto', height: 300 }}
+      loading={loading}
+      size={screen['xs'] ? 'small' : 'default'}
       cover={
         props?.loading ? (
           <Skeleton.Image
-            active={true}
+            active={loading}
             style={{
               width: '100%',
-              height: '200px',
+              height: screen['xs'] ? '100px' : '200px',
             }}
           />
         ) : (
           <img
             alt="example"
             src={item.image}
-            style={{ height: '200px', objectFit: 'cover' }}
+            style={{
+              height: screen['xs'] ? '100px' : '200px',
+              objectFit: 'cover',
+            }}
           />
         )
       }
