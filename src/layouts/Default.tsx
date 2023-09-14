@@ -11,11 +11,10 @@ import {
 } from 'antd'
 import { styled } from 'styled-components'
 import menu from '../menu'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
 import Logo from '../components/Logo'
-import convertRoleString from '../utils/convertRoleString'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -85,7 +84,9 @@ const Default = () => {
 
   const state = useAppSelector((state) => state.authReducer)
 
-  const menus = generateMenu(menu, state.role)
+  const menus = generateMenu(menu, state.role.allows)
+
+  const route = useLocation()
 
   return (
     <Layout style={{ height: '100%' }}>
@@ -118,7 +119,7 @@ const Default = () => {
               <ProfileTextContainer $collapsed={collapsed}>
                 <ProfileNAmeText ellipsis>{state.name}</ProfileNAmeText>
                 <ProfileRoleText type="secondary" ellipsis>
-                  {convertRoleString(state.role)}
+                  {state.role.title}
                 </ProfileRoleText>
               </ProfileTextContainer>
             </ProfileContainer>
@@ -126,7 +127,7 @@ const Default = () => {
           </Popover>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['/']}
+            defaultSelectedKeys={[route.pathname]}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
             items={menus}

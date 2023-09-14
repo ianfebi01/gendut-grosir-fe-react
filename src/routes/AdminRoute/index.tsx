@@ -11,7 +11,7 @@ interface Props {
 const AdminRoute: FunctionComponent<Props> = ({ isAuthorized, name }) => {
   const state = useAppSelector((state) => state.authReducer)
 
-  return isAuthorized && state.allow.includes(name) ? (
+  return isAuthorized && state.role.allows.includes(name) ? (
     <Outlet />
   ) : !isAuthorized ? (
     <Navigate to="/login" replace={true} />

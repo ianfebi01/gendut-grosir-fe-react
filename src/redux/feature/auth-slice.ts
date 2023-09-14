@@ -9,28 +9,16 @@ const initialState: InitialState = {
   _id: '',
   name: '',
   email: '',
-  role: '',
+  role: {
+    _id: '',
+    roleName: '',
+    allows: [],
+    title: '',
+  },
   activate: true,
   profilePicture: '',
-  allow: [],
+
   isAuthorized: false,
-  // _id: '63c57c45cdd9b753df70704b',
-  // name: 'Ian Febi Sastrataruna',
-  // email: 'ianfebi01@gmail.com',
-  // role: 'admin',
-  // activate: true,
-  // profilePicture:
-  //   'https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png',
-  // allow: [
-  //   'login',
-  //   'pos',
-  //   'orders',
-  //   'library',
-  //   'category',
-  //   'product',
-  //   'stockOpname',
-  //   'dashboard',
-  // ],
 }
 
 export const auth = createSlice({
