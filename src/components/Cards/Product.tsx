@@ -20,6 +20,7 @@ const StyledCard = styled(Card)`
 const Product: FunctionComponent<IProdutcCard> = (props) => {
   const screen = useBreakpoint()
   const { item, loading } = props
+
   return (
     <StyledCard
       hoverable
@@ -31,7 +32,7 @@ const Product: FunctionComponent<IProdutcCard> = (props) => {
             active={loading}
             style={{
               width: '100%',
-              height: screen['xs'] ? '100px' : '200px',
+              height: screen['xxl'] ? '200px' : '100px',
             }}
           />
         ) : (
@@ -39,7 +40,7 @@ const Product: FunctionComponent<IProdutcCard> = (props) => {
             alt="example"
             src={item.image}
             style={{
-              height: screen['xs'] ? '100px' : '200px',
+              height: screen['xxl'] ? '200px' : '100px',
               objectFit: 'cover',
             }}
           />
