@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   Avatar,
   Button,
@@ -15,6 +15,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
 import Logo from '../components/Logo'
+import { Header } from 'antd/es/layout/layout'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { useClickOutside } from '@reactuses/core'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -65,6 +68,10 @@ const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
   position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
   z-index: 10;
   height: 100vh;
+  width: 360px;
+  box-shadow: ${(props) =>
+    props.$mobile && '5px 8px 24px 5px rgba(182, 182, 182, 0.591)'};
+
   .ant-layout-sider-trigger {
     background: ${(props) => props.$color} !important;
   }
@@ -92,10 +99,17 @@ const Default = () => {
 
   const route = useLocation()
 
+  const siderRef = useRef(null)
+
+  useClickOutside(siderRef, () => {
+    if (collapsedWidth !== 72) setCollapsed(true)
+  })
+
   return (
     <Layout style={{ height: '100%' }}>
       <Layout hasSider={true}>
         <StyledSider
+          ref={siderRef}
           width={200}
           style={{ background: colorBgContainer }}
           collapsible
@@ -105,6 +119,7 @@ const Default = () => {
             if (broken) setCollapsedWidth(0)
             else setCollapsedWidth(72)
           }}
+          trigger={null}
           collapsed={collapsed}
           $color={colorPrimary}
           $mobile={collapsedWidth !== 72}
@@ -145,6 +160,19 @@ const Default = () => {
           />
         </StyledSider>
         <Layout>
+          <Header style={{ padding: 0, background: colorBgContainer }}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+          </Header>
+
           <Content
             style={{
               padding: 24,

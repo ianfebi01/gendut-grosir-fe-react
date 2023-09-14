@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
+    "@reactuses/core": "^4.0.7",
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.32.6",
     "antd": "^5.8.3",
