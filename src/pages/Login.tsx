@@ -68,16 +68,6 @@ const Login = () => {
       const payload = {
         ...datas,
         isAuthorized: true,
-        allow: [
-          'login',
-          'pos',
-          'orders',
-          'library',
-          'category',
-          'product',
-          'stockOpname',
-          'dashboard',
-        ],
       }
       dispatch(logIn(payload))
     },

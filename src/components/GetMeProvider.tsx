@@ -23,24 +23,14 @@ const GetMeProvider: FunctionComponent<{
 
   const [cookie] = useCookies(['accessToken'])
 
-  const { isLoading, refetch, isFetching, fetchStatus } = useQuery({
+  const { isLoading, refetch, isFetching, fetchStatus, isSuccess } = useQuery({
     queryFn: getMe,
     queryKey: ['profile'],
     enabled: false,
     onSuccess: (datas) => {
       const payload = {
-        ...datas,
+        ...datas._doc,
         isAuthorized: true,
-        allow: [
-          'login',
-          'pos',
-          'orders',
-          'library',
-          'category',
-          'product',
-          'stockOpname',
-          'dashboard',
-        ],
       }
       dispatch(logIn(payload))
     },
@@ -58,7 +48,7 @@ const GetMeProvider: FunctionComponent<{
         <Spin />
       </StyledSpin>
     )
-  else if (fetchStatus === 'idle') return children
+  else if (fetchStatus === 'idle' && isSuccess) return children
   // return children
 }
 

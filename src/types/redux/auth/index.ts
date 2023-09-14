@@ -1,5 +1,6 @@
+import { IRole } from '../../api/profile.type'
+
 export interface InitialState extends IProfile {
-  allow: string[]
   isAuthorized?: boolean
 }
 
@@ -7,7 +8,7 @@ export interface IProfile {
   _id: string
   name: string
   email: string
-  role: string
+  role: IRole
   activate: boolean
   profilePicture: string
 }

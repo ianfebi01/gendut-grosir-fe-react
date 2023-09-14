@@ -4,6 +4,7 @@ import GetMeProvider from './components/GetMeProvider'
 import { ReduxProvider } from './redux/provider'
 import { Routes } from './routes'
 import { CookiesProvider } from 'react-cookie'
+import { Suspense } from 'react'
 
 function App() {
   return (
@@ -11,9 +12,11 @@ function App() {
       <CookiesProvider>
         <ReduxProvider>
           <ReactQueryProvider>
-            <GetMeProvider>
-              <Routes />
-            </GetMeProvider>
+            <Suspense fallback={<span>Loading...</span>}>
+              <GetMeProvider>
+                <Routes />
+              </GetMeProvider>
+            </Suspense>
           </ReactQueryProvider>
         </ReduxProvider>
       </CookiesProvider>
