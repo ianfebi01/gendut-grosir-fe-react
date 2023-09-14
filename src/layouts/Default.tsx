@@ -188,15 +188,15 @@ const Default = () => {
               <TextLogo $collapsed={false}>Gendut Grosir</TextLogo>
             </div>
           </StyledHeader>
-
           <Content
             style={{
               padding: 24,
-              margin: '24px 24px 0 24px',
+              margin: ' 24px',
               minHeight: 280,
               background: colorBgContainer,
               borderRadius: '8px',
               overflow: 'auto',
+              flex: 'unset',
             }}
           >
             <Outlet />
