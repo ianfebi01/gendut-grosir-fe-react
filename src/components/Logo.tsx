@@ -15,7 +15,7 @@ const LogoContainer = styled.div<{ $collapsed?: boolean }>`
   transition: all 0.3s ease-out;
 `
 
-const TextLogo = styled.span<{ $collapsed?: boolean }>`
+export const TextLogo = styled.span<{ $collapsed?: boolean }>`
   margin-inline-start: 10px;
   white-space: nowrap;
   opacity: ${(props) => (props.$collapsed ? 0 : '100')};

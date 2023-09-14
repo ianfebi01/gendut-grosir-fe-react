@@ -3,6 +3,7 @@ import {
   Avatar,
   Button,
   Divider,
+  Image,
   Layout,
   Menu,
   Popover,
@@ -14,10 +15,11 @@ import menu from '../menu'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
-import Logo from '../components/Logo'
+import Logo, { TextLogo } from '../components/Logo'
 import { Header } from 'antd/es/layout/layout'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { useClickOutside } from '@reactuses/core'
+import logo from '/Ilustration/logo.svg'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -75,6 +77,14 @@ const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
   .ant-layout-sider-trigger {
     background: ${(props) => props.$color} !important;
   }
+`
+
+const StyledHeader = styled(Header)<{ $bg?: string }>`
+  padding: 0;
+  background-color: ${(props) => props.$bg};
+  display: flex;
+  justify-content: center;
+  position: relative;
 `
 
 const content = (
@@ -160,7 +170,7 @@ const Default = () => {
           />
         </StyledSider>
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}>
+          <StyledHeader $bg={colorBgContainer}>
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -169,9 +179,15 @@ const Default = () => {
                 fontSize: '16px',
                 width: 64,
                 height: 64,
+                position: 'absolute',
+                left: 0,
               }}
             />
-          </Header>
+            <div>
+              <Image src={logo} alt="Logo" preview={false} width={40} />
+              <TextLogo $collapsed={false}>Gendut Grosir</TextLogo>
+            </div>
+          </StyledHeader>
 
           <Content
             style={{
