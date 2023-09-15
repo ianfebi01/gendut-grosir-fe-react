@@ -83,6 +83,19 @@ const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
     background: ${(props) => props.$color} !important;
   }
 `
+const StyledSiderRight = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
+  position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
+  z-index: 10;
+  right: 0;
+  height: 100vh;
+  width: 360px;
+  box-shadow: ${(props) =>
+    props.$mobile && '5px 8px 24px 5px rgba(182, 182, 182, 0.591)'};
+
+  .ant-layout-sider-trigger {
+    background: ${(props) => props.$color} !important;
+  }
+`
 
 const StyledHeader = styled(Header)<{ $bg?: string }>`
   padding: 0;
@@ -239,6 +252,22 @@ const Default = () => {
             </WrapperContent>
           </Content>
         </Layout>
+        <StyledSiderRight
+          ref={siderRef}
+          width={400}
+          style={{ background: colorBgContainer }}
+          collapsible
+          collapsedWidth={0}
+          breakpoint="xs"
+          onBreakpoint={(broken) => {
+            if (broken) setCollapsedWidth(0)
+            else setCollapsedWidth(72)
+          }}
+          collapsed={collapsed}
+          $color={colorPrimary}
+          $mobile={true}
+          onCollapse={() => setCollapsed(!collapsed)}
+        ></StyledSiderRight>
       </Layout>
     </Layout>
   )
