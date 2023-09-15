@@ -93,8 +93,8 @@ const Default = () => {
     token: { colorBgContainer, colorPrimary },
   } = theme.useToken()
 
-  const [collapsed, setCollapsed] = useState<boolean>(false)
-  const [collapsedWidth, setCollapsedWidth] = useState<number>(72)
+  const [collapsed, setCollapsed] = useState<boolean>(true)
+  const [collapsedWidth, setCollapsedWidth] = useState<number>(0)
 
   // @ NOTE REDUX
   const state = useAppSelector((state) => state.authReducer)
@@ -139,7 +139,7 @@ const Default = () => {
           collapsed={collapsed}
           $color={colorPrimary}
           $mobile={collapsedWidth !== 72}
-          onCollapse={(value) => setCollapsed(value)}
+          onCollapse={() => setCollapsed(true)}
         >
           <Logo
             collapsed={collapsed}
