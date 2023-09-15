@@ -17,7 +17,11 @@ import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
 import Logo, { TextLogo } from '../components/Logo'
 import { Header } from 'antd/es/layout/layout'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ShoppingCartOutlined,
+} from '@ant-design/icons'
 import { useClickOutside } from '@reactuses/core'
 import logo from '/Ilustration/logo.svg'
 import useSignOut from '../hooks/useSignOut'
@@ -86,6 +90,22 @@ const StyledHeader = styled(Header)<{ $bg?: string }>`
   display: flex;
   justify-content: center;
   position: relative;
+`
+
+const CartButton = styled(Button)`
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+`
+
+const CartButton = styled(Button)`
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
 `
 
 const WrapperContent = styled.div`
@@ -203,6 +223,11 @@ const Default = () => {
               <Image src={logo} alt="Logo" preview={false} width={40} />
               <TextLogo $collapsed={false}>Gendut Grosir</TextLogo>
             </div>
+            <CartButton
+              icon={<ShoppingCartOutlined />}
+              type="link"
+              size="large"
+            />
           </StyledHeader>
           <Content
             style={{
