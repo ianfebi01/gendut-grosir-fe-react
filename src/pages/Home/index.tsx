@@ -1,4 +1,3 @@
-import React from 'react'
 import PointOfSales from '../../components/Pages/PointOfSales'
 
 const index = () => {
