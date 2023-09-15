@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { IFieldsProps } from '../../types/components/Fields.types'
 import { Form, Input, InputProps } from 'antd'
 import { useField } from 'formik'
