@@ -100,14 +100,6 @@ const CartButton = styled(Button)`
   margin: auto 0;
 `
 
-const CartButton = styled(Button)`
-  position: absolute;
-  right: 20px;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-`
-
 const WrapperContent = styled.div`
   padding: 24px;
   border-radius: 8px;
