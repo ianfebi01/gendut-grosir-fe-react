@@ -88,6 +88,12 @@ const StyledHeader = styled(Header)<{ $bg?: string }>`
   position: relative;
 `
 
+const WrapperContent = styled.div`
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+`
+
 const Default = () => {
   const {
     token: { colorBgContainer, colorPrimary },
@@ -175,7 +181,11 @@ const Default = () => {
             onSelect={({ key }) => navigate(key)}
           />
         </StyledSider>
-        <Layout>
+        <Layout
+          style={{
+            overflow: 'auto',
+          }}
+        >
           <StyledHeader $bg={colorBgContainer}>
             <Button
               type="text"
@@ -197,15 +207,19 @@ const Default = () => {
           <Content
             style={{
               padding: 24,
-              margin: ' 24px',
               minHeight: 280,
-              background: colorBgContainer,
               borderRadius: '8px',
               overflow: 'auto',
               flex: 'unset',
             }}
           >
-            <Outlet />
+            <WrapperContent
+              style={{
+                background: colorBgContainer,
+              }}
+            >
+              <Outlet />
+            </WrapperContent>
           </Content>
         </Layout>
       </Layout>
