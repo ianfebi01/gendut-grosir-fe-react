@@ -5,6 +5,8 @@ WORKDIR /usr/app
 COPY . /usr/app
 
 RUN yarn install 
+
+ENV NODE_ENV=production
 #RUN npm install react-scripts@5.0.1 -g --silent
 
 #COPY . .

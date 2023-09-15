@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie'
 const cookie = new Cookies()
 
 const useApi = axios.create({
-  baseURL: '/api', // Replace with your API base URL
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_BASE_URL : '/api', // Replace with your API base URL
 })
 
 // Request interceptor
