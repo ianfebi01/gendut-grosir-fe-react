@@ -283,6 +283,7 @@ const Default = () => {
             if (broken) setCollapsedWidth(0)
             else setCollapsedWidth(72)
           }}
+          trigger={null}
           collapsed={cart.collapsed}
           $color={colorPrimary}
           $mobile={true}
