@@ -3,6 +3,7 @@ import {
   Avatar,
   Button,
   Divider,
+  Grid,
   Image,
   Layout,
   Menu,
@@ -17,13 +18,21 @@ import { generateMenu } from '../utils/menus'
 import { useAppSelector } from '../redux/store'
 import Logo, { TextLogo } from '../components/Logo'
 import { Header } from 'antd/es/layout/layout'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ShoppingCartOutlined,
+} from '@ant-design/icons'
 import { useClickOutside } from '@reactuses/core'
 import logo from '/Ilustration/logo.svg'
 import useSignOut from '../hooks/useSignOut'
+import { useDispatch } from 'react-redux'
+import { setCollapsed as cartCollapsed } from '../redux/feature/cart-slice'
+import Cart from '../components/Cart'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
+const { useBreakpoint } = Grid
 
 // @ NOTE Styled Component
 
@@ -79,6 +88,19 @@ const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
     background: ${(props) => props.$color} !important;
   }
 `
+const StyledSiderRight = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
+  position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
+  z-index: 10;
+  right: 0;
+  height: 100vh;
+  width: 360px;
+  box-shadow: ${(props) =>
+    props.$mobile && '5px 8px 24px 5px rgba(182, 182, 182, 0.591)'};
+
+  .ant-layout-sider-trigger {
+    background: ${(props) => props.$color} !important;
+  }
+`
 
 const StyledHeader = styled(Header)<{ $bg?: string }>`
   padding: 0;
@@ -86,6 +108,14 @@ const StyledHeader = styled(Header)<{ $bg?: string }>`
   display: flex;
   justify-content: center;
   position: relative;
+`
+
+const CartButton = styled(Button)`
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
 `
 
 const WrapperContent = styled.div`
@@ -104,6 +134,9 @@ const Default = () => {
 
   // @ NOTE REDUX
   const state = useAppSelector((state) => state.authReducer)
+  const cart = useAppSelector((state) => state.cartReducer)
+
+  const dispatch = useDispatch()
 
   // @ NOTE MENU
   const menus = generateMenu(menu, state.role.allows)
@@ -119,8 +152,18 @@ const Default = () => {
     if (collapsedWidth !== 72) setCollapsed(true)
   })
 
+  // @ NOTE CLICK OUTSIDE CART TO COLLAPSE
+  const cartRef = useRef(null)
+
+  useClickOutside(cartRef, () => {
+    dispatch(cartCollapsed(true))
+  })
+
   // @ NOTE SIGN OUT
   const signOut = useSignOut()
+
+  // @ NOTE Breakpoints
+  const screen = useBreakpoint()
 
   const content = (
     <Button type="primary" danger onClick={() => signOut()}>
@@ -203,6 +246,12 @@ const Default = () => {
               <Image src={logo} alt="Logo" preview={false} width={40} />
               <TextLogo $collapsed={false}>Gendut Grosir</TextLogo>
             </div>
+            <CartButton
+              icon={<ShoppingCartOutlined />}
+              type="link"
+              size="large"
+              onClick={() => dispatch(cartCollapsed(false))}
+            />
           </StyledHeader>
           <Content
             style={{
@@ -222,6 +271,24 @@ const Default = () => {
             </WrapperContent>
           </Content>
         </Layout>
+        <StyledSiderRight
+          ref={cartRef}
+          width={screen['xs'] ? '100%' : 400}
+          defaultCollapsed
+          style={{ background: colorBgContainer }}
+          collapsible
+          collapsedWidth={0}
+          breakpoint="xs"
+          onBreakpoint={(broken) => {
+            if (broken) setCollapsedWidth(0)
+            else setCollapsedWidth(72)
+          }}
+          collapsed={cart.collapsed}
+          $color={colorPrimary}
+          $mobile={true}
+        >
+          <Cart />
+        </StyledSiderRight>
       </Layout>
     </Layout>
   )
