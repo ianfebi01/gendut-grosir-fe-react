@@ -25,6 +25,8 @@ import {
 import { useClickOutside } from '@reactuses/core'
 import logo from '/Ilustration/logo.svg'
 import useSignOut from '../hooks/useSignOut'
+import { useDispatch } from 'react-redux'
+import { setCollapsed as cartCollapsed } from '../redux/feature/cart-slice'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
@@ -129,6 +131,9 @@ const Default = () => {
 
   // @ NOTE REDUX
   const state = useAppSelector((state) => state.authReducer)
+  const cart = useAppSelector((state) => state.cartReducer)
+
+  const dispatch = useDispatch()
 
   // @ NOTE MENU
   const menus = generateMenu(menu, state.role.allows)
@@ -142,6 +147,13 @@ const Default = () => {
 
   useClickOutside(siderRef, () => {
     if (collapsedWidth !== 72) setCollapsed(true)
+  })
+
+  // @ NOTE CLICK OUTSIDE CART TO COLLAPSE
+  const cartRef = useRef(null)
+
+  useClickOutside(cartRef, () => {
+    dispatch(cartCollapsed(true))
   })
 
   // @ NOTE SIGN OUT
@@ -232,7 +244,9 @@ const Default = () => {
               icon={<ShoppingCartOutlined />}
               type="link"
               size="large"
+              onClick={() => dispatch(cartCollapsed(false))}
             />
+            <span>{cart.collapsed}</span>
           </StyledHeader>
           <Content
             style={{
@@ -253,8 +267,9 @@ const Default = () => {
           </Content>
         </Layout>
         <StyledSiderRight
-          ref={siderRef}
+          ref={cartRef}
           width={400}
+          defaultCollapsed
           style={{ background: colorBgContainer }}
           collapsible
           collapsedWidth={0}
@@ -263,10 +278,9 @@ const Default = () => {
             if (broken) setCollapsedWidth(0)
             else setCollapsedWidth(72)
           }}
-          collapsed={collapsed}
+          collapsed={cart.collapsed}
           $color={colorPrimary}
           $mobile={true}
-          onCollapse={() => setCollapsed(!collapsed)}
         ></StyledSiderRight>
       </Layout>
     </Layout>
