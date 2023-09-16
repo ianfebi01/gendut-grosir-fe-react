@@ -1,10 +1,10 @@
-import { useCookies } from 'react-cookie'
+import Cookies from 'universal-cookie'
+
+const cookie = new Cookies()
 
 export default function useSignOut() {
-  const [, , removeCookie] = useCookies(['accessToken'])
-
   const signOut = () => {
-    removeCookie('accessToken')
+    cookie.remove('accessToken')
     window.location.reload()
   }
 

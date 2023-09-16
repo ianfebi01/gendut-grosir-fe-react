@@ -37,6 +37,12 @@ useApi.interceptors.response.use(
   (error) => {
     // Handle response errors here
 
+    // @ NOTE Unauthorized
+    if (error.response.status === 401) {
+      cookie.remove('accessToken')
+      window.location.reload()
+    }
+
     return Promise.reject(error)
   }
 )
