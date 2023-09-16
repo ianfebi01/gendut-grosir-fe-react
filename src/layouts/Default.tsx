@@ -3,6 +3,7 @@ import {
   Avatar,
   Button,
   Divider,
+  Grid,
   Image,
   Layout,
   Menu,
@@ -27,9 +28,11 @@ import logo from '/Ilustration/logo.svg'
 import useSignOut from '../hooks/useSignOut'
 import { useDispatch } from 'react-redux'
 import { setCollapsed as cartCollapsed } from '../redux/feature/cart-slice'
+import Cart from '../components/Cart'
 
 const { Content, Sider } = Layout
 const { Text } = Typography
+const { useBreakpoint } = Grid
 
 // @ NOTE Styled Component
 
@@ -159,6 +162,9 @@ const Default = () => {
   // @ NOTE SIGN OUT
   const signOut = useSignOut()
 
+  // @ NOTE Breakpoints
+  const screen = useBreakpoint()
+
   const content = (
     <Button type="primary" danger onClick={() => signOut()}>
       Sign Out
@@ -246,7 +252,6 @@ const Default = () => {
               size="large"
               onClick={() => dispatch(cartCollapsed(false))}
             />
-            <span>{cart.collapsed}</span>
           </StyledHeader>
           <Content
             style={{
@@ -268,7 +273,7 @@ const Default = () => {
         </Layout>
         <StyledSiderRight
           ref={cartRef}
-          width={400}
+          width={screen['xs'] ? '100%' : 400}
           defaultCollapsed
           style={{ background: colorBgContainer }}
           collapsible
@@ -281,7 +286,9 @@ const Default = () => {
           collapsed={cart.collapsed}
           $color={colorPrimary}
           $mobile={true}
-        ></StyledSiderRight>
+        >
+          <Cart />
+        </StyledSiderRight>
       </Layout>
     </Layout>
   )
