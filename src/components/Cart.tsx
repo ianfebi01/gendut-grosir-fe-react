@@ -1,29 +1,36 @@
 import { Button, Layout, theme } from 'antd'
-import { ShoppingCartOutlined } from '@ant-design/icons'
+import { CloseOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { setCollapsed } from '../redux/feature/cart-slice'
 import { styled } from 'styled-components'
 
 const { Content, Header, Footer } = Layout
 
+const CartHeader = styled(Header)<{ $bg?: string }>`
+  background-color: ${(props) => props.$bg};
+  padding-inline: 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const CartFooter = styled(Footer)<{ $bg?: string }>`
+  background-color: ${(props) => props.$bg};
+  padding-inline: 20px;
+`
+
+const StyledLayout = styled(Layout)`
+  height: 100%;
+`
+
 const Cart = () => {
   const dispatch = useDispatch()
   const {
-    token: { colorPrimary },
+    token: { colorPrimary, colorFillAlter },
   } = theme.useToken()
   return (
-    <Layout
-      style={{
-        height: '100%',
-      }}
-    >
-      <Header
-        style={{
-          background: 'white',
-          paddingInline: 20,
-          position: 'relative',
-        }}
-      >
+    <StyledLayout>
+      <CartHeader $bg={colorFillAlter}>
         <div
           style={{
             display: 'flex',
@@ -38,12 +45,18 @@ const Cart = () => {
           />
           Cart
         </div>
-      </Header>
 
-      <Content style={{}}>Tes</Content>
+        <Button
+          type="link"
+          icon={<CloseOutlined />}
+          onClick={() => dispatch(setCollapsed(true))}
+        />
+      </CartHeader>
 
-      <Footer>Tes</Footer>
-    </Layout>
+      <Content style={{ padding: 20 }}>Tes</Content>
+
+      <CartFooter $bg={colorFillAlter}>Footer</CartFooter>
+    </StyledLayout>
   )
 }
 
