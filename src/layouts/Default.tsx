@@ -76,13 +76,22 @@ const ProfileNAmeText = styled(Text)`
   width: 126px;
 `
 
-const StyledSider = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
-  position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
+const StyledSider = styled(Sider)<{
+  $color?: string
+  $collapsed?: boolean
+}>`
+  position: static;
   z-index: 10;
   height: 100vh;
   width: 360px;
-  box-shadow: ${(props) =>
-    props.$mobile && '5px 8px 24px 5px rgba(182, 182, 182, 0.591)'};
+
+  @media (max-width: 576px) {
+    position: absolute !important;
+    min-width: 0 !important;
+    width: ${(props) => (props.$collapsed ? '0 !important' : '200px')};
+    box-shadow: 5px 8px 24px 5px rgba(182, 182, 182, 0.591);
+    overflow: hidden;
+  }
 
   .ant-layout-sider-trigger {
     background: ${(props) => props.$color} !important;
@@ -130,7 +139,9 @@ const Default = () => {
   } = theme.useToken()
 
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [collapsedWidth, setCollapsedWidth] = useState<number>(0)
+
+  // @ NOTE Breakpoints
+  const screen = useBreakpoint()
 
   // @ NOTE REDUX
   const state = useAppSelector((state) => state.authReducer)
@@ -149,7 +160,7 @@ const Default = () => {
   const siderRef = useRef(null)
 
   useClickOutside(siderRef, () => {
-    if (collapsedWidth !== 72) setCollapsed(true)
+    if (screen['xs']) setCollapsed(true)
   })
 
   // @ NOTE CLICK OUTSIDE CART TO COLLAPSE
@@ -161,9 +172,6 @@ const Default = () => {
 
   // @ NOTE SIGN OUT
   const signOut = useSignOut()
-
-  // @ NOTE Breakpoints
-  const screen = useBreakpoint()
 
   const content = (
     <Button type="primary" danger onClick={() => signOut()}>
@@ -178,16 +186,12 @@ const Default = () => {
           width={200}
           style={{ background: colorBgContainer }}
           collapsible
-          collapsedWidth={collapsedWidth}
+          collapsedWidth={80}
           breakpoint="xs"
-          onBreakpoint={(broken) => {
-            if (broken) setCollapsedWidth(0)
-            else setCollapsedWidth(72)
-          }}
           trigger={null}
           collapsed={collapsed}
+          $collapsed={collapsed}
           $color={colorPrimary}
-          $mobile={collapsedWidth !== 72}
           onCollapse={() => setCollapsed(true)}
         >
           <Logo
@@ -279,10 +283,6 @@ const Default = () => {
           collapsible
           collapsedWidth={0}
           breakpoint="xs"
-          onBreakpoint={(broken) => {
-            if (broken) setCollapsedWidth(0)
-            else setCollapsedWidth(72)
-          }}
           trigger={null}
           collapsed={cart.collapsed}
           $color={colorPrimary}
