@@ -1,8 +1,9 @@
-import { Button, Layout, theme } from 'antd'
+import { Button, Card, Layout, theme } from 'antd'
 import { CloseOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { setCollapsed } from '../redux/feature/cart-slice'
 import { styled } from 'styled-components'
+import { useAppSelector } from '../redux/store'
 
 const { Content, Header, Footer } = Layout
 
@@ -28,6 +29,8 @@ const Cart = () => {
   const {
     token: { colorPrimary, colorFillAlter },
   } = theme.useToken()
+
+  const { cart } = useAppSelector((state) => state.cartReducer)
   return (
     <StyledLayout>
       <CartHeader $bg={colorFillAlter}>
@@ -53,7 +56,13 @@ const Cart = () => {
         />
       </CartHeader>
 
-      <Content style={{ padding: 20 }}>Tes</Content>
+      <Content style={{ padding: 20 }}>
+        <Card>
+          {cart?.map((item, i) => (
+            <span key={i}>{item.name}</span>
+          ))}
+        </Card>
+      </Content>
 
       <CartFooter $bg={colorFillAlter}>Footer</CartFooter>
     </StyledLayout>
