@@ -2,5 +2,9 @@ import { IProduct } from '../../api/product.types'
 
 export interface InitialState {
   collapsed: boolean
-  cart: IProduct[]
+  cart: IProductCart[]
+}
+
+export interface IProductCart extends IProduct {
+  qty: number
 }
