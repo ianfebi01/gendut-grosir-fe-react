@@ -1,36 +1,48 @@
 import { BarcodeOutlined } from '@ant-design/icons'
-import { Input } from 'antd'
-import { FunctionComponent, KeyboardEventHandler, useState } from 'react'
+import { Input, InputRef } from 'antd'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { IBarcode } from '../../types/components/Fields.types'
 import { useDebounceFn } from '@reactuses/core'
+import useInputNumeric from '../../hooks/useInputNumeric'
 
-const Barcode: FunctionComponent<IBarcode> = ({ onChange }) => {
-  const [value, setValue] = useState<string>()
+const Barcode = forwardRef<InputRef, IBarcode>(function Barcode(
+  { onChange },
+  ref
+) {
   const { run } = useDebounceFn((value) => {
     onChange(value)
   }, 500)
 
-  const handleKeyUp: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    console.log(value)
-    if (/^([0-9])/.test(e.key)) {
-      // setValue(e.currentTarget.value)
-      run(e.currentTarget.value)
-    }
-    if (e.key === 'Enter') {
-      onChange(e.currentTarget.value)
-    }
+  const handleChange = (value: string) => {
+    run(value)
   }
+
+  // @ NOTE REF
+  const innerRef = useRef<InputRef>(null)
+  useImperativeHandle(ref, () => innerRef.current!, [])
+
+  const numericInput = useInputNumeric
+
+  // @ NOTE only accept numeric inputs
+  useEffect(() => {
+    if (innerRef.current && ref) {
+      const el = innerRef.current.input
+
+      numericInput(el as HTMLInputElement)
+    }
+  }, [])
+
   return (
     <Input
+      ref={innerRef}
       prefix={<BarcodeOutlined />}
       size="large"
       placeholder="Masukkan barcode"
-      maxLength={14}
+      maxLength={13}
       allowClear
-      value={value}
-      onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
+      onChange={(e) => handleChange(e.target.value)}
     />
   )
-}
+})
 
 export default Barcode

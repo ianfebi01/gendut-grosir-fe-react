@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, Layout, Space, Typography, theme } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  InputRef,
+  Layout,
+  Space,
+  Typography,
+  theme,
+} from 'antd'
 import {
   CloseOutlined,
   DeleteOutlined,
@@ -11,6 +20,7 @@ import { setCollapsed } from '../redux/feature/cart-slice'
 import { styled } from 'styled-components'
 import { useAppSelector } from '../redux/store'
 import Barcode from './Fields/Barcode'
+import { ForwardedRef, useEffect, useRef } from 'react'
 
 const { Content, Header, Footer } = Layout
 
@@ -48,11 +58,17 @@ const Cart = () => {
     token: { colorPrimary, colorFillAlter },
   } = theme.useToken()
 
-  const { cart } = useAppSelector((state) => state.cartReducer)
+  const { cart, collapsed } = useAppSelector((state) => state.cartReducer)
 
   const handleBarcode = (value: string) => {
     console.log(value)
   }
+
+  const barcodeInputRef = useRef<InputRef>()
+
+  useEffect(() => {
+    barcodeInputRef.current?.focus()
+  }, [collapsed])
   return (
     <StyledLayout>
       <CartHeader $bg={colorFillAlter}>
@@ -87,7 +103,10 @@ const Cart = () => {
           overflow: 'auto',
         }}
       >
-        <Barcode onChange={(value) => handleBarcode(value)} />
+        <Barcode
+          ref={barcodeInputRef as ForwardedRef<InputRef>}
+          onChange={(value) => handleBarcode(value)}
+        />
         {cart?.map((item, i) => (
           <Card key={i}>
             <div
