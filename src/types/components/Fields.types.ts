@@ -28,3 +28,7 @@ export interface Option {
   desc?: string
   disabled?: boolean
 }
+
+export interface IBarcode {
+  onChange: (value: string) => void
+}

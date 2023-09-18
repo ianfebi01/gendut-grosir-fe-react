@@ -27,7 +27,11 @@ export const cart = createSlice({
           cart: tmp,
         }
       } else {
-        tmp.push(actions.payload as IProductCart)
+        tmp.push({
+          ...actions.payload,
+          qty: 1,
+        })
+
         return {
           ...state,
           cart: tmp,

@@ -49,6 +49,10 @@ const Cart = () => {
   } = theme.useToken()
 
   const { cart } = useAppSelector((state) => state.cartReducer)
+
+  const handleBarcode = (value: string) => {
+    console.log(value)
+  }
   return (
     <StyledLayout>
       <CartHeader $bg={colorFillAlter}>
@@ -80,9 +84,10 @@ const Cart = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: 10,
+          overflow: 'auto',
         }}
       >
-        <Barcode />
+        <Barcode onChange={(value) => handleBarcode(value)} />
         {cart?.map((item, i) => (
           <Card key={i}>
             <div
