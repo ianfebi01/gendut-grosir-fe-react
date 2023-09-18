@@ -53,8 +53,14 @@ export const cart = createSlice({
       const tmp: IProductCart[] = JSON.parse(JSON.stringify(state.cart))
       const index = tmp.findIndex((item) => item._id === actions.payload)
       if (index !== -1) {
-        if (tmp[index].qty > 0) {
+        if (tmp[index].qty > 1) {
           tmp[index].qty -= 1
+          return {
+            ...state,
+            cart: tmp,
+          }
+        } else if (tmp[index].qty === 1) {
+          tmp.splice(index, 1)
           return {
             ...state,
             cart: tmp,
