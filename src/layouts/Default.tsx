@@ -101,7 +101,7 @@ const StyledSiderRight = styled(Sider)<{ $color?: string; $mobile?: boolean }>`
   position: ${(props) => (props.$mobile ? 'absolute !important' : 'static')};
   z-index: 10;
   right: 0;
-  height: 100vh;
+  height: 100svh;
   width: 360px;
   box-shadow: ${(props) =>
     props.$mobile && '5px 8px 24px 5px rgba(182, 182, 182, 0.591)'};
@@ -179,7 +179,7 @@ const Default = () => {
     </Button>
   )
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout style={{ height: '100svh' }}>
       <Layout hasSider={true}>
         <StyledSider
           ref={siderRef}
