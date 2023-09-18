@@ -38,8 +38,19 @@ export const cart = createSlice({
         }
       }
     },
+    removeFromCart: (state, actions: PayloadAction<string>) => {
+      const tmp: IProductCart[] = JSON.parse(JSON.stringify(state.cart))
+      const index = tmp.findIndex((item) => item._id === actions.payload)
+      if (index !== -1) {
+        tmp.splice(index, 1)
+        return {
+          ...state,
+          cart: tmp,
+        }
+      }
+    },
   },
 })
 
-export const { setCollapsed, addToCart } = cart.actions
+export const { setCollapsed, addToCart, removeFromCart } = cart.actions
 export default cart.reducer
