@@ -16,7 +16,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { setCollapsed } from '../redux/feature/cart-slice'
+import { removeFromCart, setCollapsed } from '../redux/feature/cart-slice'
 import { styled } from 'styled-components'
 import { useAppSelector } from '../redux/store'
 import Barcode from './Fields/Barcode'
@@ -136,7 +136,11 @@ const Cart = () => {
                 }}
               ></div>
               <SpaceNoGap direction="vertical" align="center">
-                <PlusMinusButton icon={<DeleteOutlined />} type="link" />
+                <PlusMinusButton
+                  icon={<DeleteOutlined />}
+                  type="link"
+                  onClick={() => dispatch(removeFromCart(item._id))}
+                />
                 <Text>{item.qty}</Text>
               </SpaceNoGap>
             </div>
