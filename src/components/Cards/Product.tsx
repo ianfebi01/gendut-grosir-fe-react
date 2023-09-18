@@ -3,6 +3,8 @@ import Meta from 'antd/es/card/Meta'
 import { styled } from 'styled-components'
 import { IProdutcCard } from '../../types/components/Cards/Product.types'
 import { FunctionComponent } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../redux/feature/cart-slice'
 
 const { useBreakpoint } = Grid
 
@@ -20,6 +22,9 @@ const StyledCard = styled(Card)`
 const Product: FunctionComponent<IProdutcCard> = (props) => {
   const screen = useBreakpoint()
   const { item, loading } = props
+
+  // @ NOTE redux
+  const dispatch = useDispatch()
 
   return (
     <StyledCard
@@ -46,6 +51,7 @@ const Product: FunctionComponent<IProdutcCard> = (props) => {
           />
         )
       }
+      onClick={() => dispatch(addToCart(item))}
     >
       <Meta title={item.name} description={item.retailPrice} />
     </StyledCard>
