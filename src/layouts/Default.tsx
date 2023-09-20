@@ -130,9 +130,15 @@ const CartButton = styled(Button)`
 const WrapperContent = styled.div`
   padding: 24px;
   border-radius: 8px;
-  text-align: center;
 `
 
+const MainContent = styled(Content)`
+  padding: 24px;
+  min-height: 280px;
+  border-radius: 8px;
+  overflow: auto;
+  flex: unset;
+`
 const Default = () => {
   const {
     token: { colorBgContainer, colorPrimary },
@@ -257,15 +263,7 @@ const Default = () => {
               onClick={() => dispatch(cartCollapsed(false))}
             />
           </StyledHeader>
-          <Content
-            style={{
-              padding: 24,
-              minHeight: 280,
-              borderRadius: '8px',
-              overflow: 'auto',
-              flex: 'unset',
-            }}
-          >
+          <MainContent>
             <WrapperContent
               style={{
                 background: colorBgContainer,
@@ -273,7 +271,7 @@ const Default = () => {
             >
               <Outlet />
             </WrapperContent>
-          </Content>
+          </MainContent>
         </Layout>
         <StyledSiderRight
           ref={cartRef}
