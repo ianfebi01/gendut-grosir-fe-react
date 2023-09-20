@@ -19,7 +19,7 @@ const PointOfSales = () => {
     q: '',
     category: '',
     page: 1,
-    limit: 18,
+    limit: 24,
   })
   const loaderLoop = useMemo(() => {
     return new Array(params.limit).fill(0)
