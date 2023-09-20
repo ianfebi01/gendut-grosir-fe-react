@@ -127,9 +127,13 @@ const CartButton = styled(Button)`
   margin: auto 0;
 `
 
-const WrapperContent = styled.div`
+const WrapperContent = styled.div<{ $flow?: boolean }>`
   padding: 24px;
   border-radius: 8px;
+  max-width: ${(props) => (props.$flow ? '992px' : 'unset')};
+  place-self: center;
+  width: 100%;
+  height: 100%;
 `
 
 const MainContent = styled(Content)`
@@ -138,6 +142,8 @@ const MainContent = styled(Content)`
   border-radius: 8px;
   overflow: auto;
   flex: unset;
+  display: grid;
+  width: 100%;
 `
 const Default = () => {
   const {
@@ -268,6 +274,7 @@ const Default = () => {
               style={{
                 background: colorBgContainer,
               }}
+              $flow={route.pathname === '/'}
             >
               <Outlet />
             </WrapperContent>
