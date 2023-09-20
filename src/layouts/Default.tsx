@@ -130,7 +130,7 @@ const CartButton = styled(Button)`
 const WrapperContent = styled.div<{ $flow?: boolean }>`
   padding: 24px;
   border-radius: 8px;
-  max-width: ${(props) => (props.$flow ? '992px' : 'unset')};
+  max-width: ${(props) => (props.$flow ? '768px' : 'unset')};
   place-self: center;
   width: 100%;
   height: 100%;

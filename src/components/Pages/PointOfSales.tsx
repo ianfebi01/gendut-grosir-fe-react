@@ -45,12 +45,12 @@ const PointOfSales = () => {
       <Row gutter={[16, 16]}>
         {isLoading
           ? loaderLoop.map((item, i) => (
-              <Col xs={12} sm={12} md={8} lg={4} xl={4} xxl={4} key={i}>
+              <Col xs={12} sm={8} md={6} lg={6} xl={6} xxl={6} key={i}>
                 <Product item={item} loading={isLoading} />
               </Col>
             ))
           : state.products?.map((item) => (
-              <Col xs={12} sm={12} md={8} lg={4} xl={4} xxl={4} key={item._id}>
+              <Col xs={12} sm={8} md={6} lg={6} xl={6} xxl={6} key={item._id}>
                 <Product item={item} />
               </Col>
             ))}
