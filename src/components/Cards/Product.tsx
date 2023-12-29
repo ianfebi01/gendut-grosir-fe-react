@@ -5,6 +5,7 @@ import { IProdutcCard } from '../../types/components/Cards/Product.types'
 import { FunctionComponent } from 'react'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/feature/cart-slice'
+import useImageSize from '../../hooks/useImageSize'
 
 const { useBreakpoint } = Grid
 
@@ -26,6 +27,8 @@ const Product: FunctionComponent<IProdutcCard> = (props) => {
   // @ NOTE redux
   const dispatch = useDispatch()
 
+  const image = useImageSize
+
   return (
     <StyledCard
       hoverable
@@ -43,7 +46,7 @@ const Product: FunctionComponent<IProdutcCard> = (props) => {
         ) : (
           <img
             alt="example"
-            src={item.image}
+            src={image(item.image, 'sm')}
             style={{
               height: '100px',
               objectFit: 'cover',
